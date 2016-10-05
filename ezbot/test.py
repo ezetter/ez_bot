@@ -1,5 +1,6 @@
 import unittest
 from ezbot.util import TextNormalizer
+from ezbot.process import process_request
 
 
 class TextNormalizerTestCase(unittest.TestCase):
@@ -21,6 +22,11 @@ class TextNormalizerTestCase(unittest.TestCase):
 
     def test_contractions_i_am(self):
         self.assertEqual(TextNormalizer("I'm done").replace_contractions().parse().get_tokens(), ['i', 'am', 'done'])
+
+
+class ProcessRequestTestCase(unittest.TestCase):
+    def test_process_done(self):
+        self.assertEqual(process_request('done')[1], 'OK, Bye Bye...')
 
 
 if __name__ == '__main__':

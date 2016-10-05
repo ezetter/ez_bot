@@ -62,3 +62,6 @@ class TextNormalizer(object):
 
     def get_tokens(self):
         return self.tokenized_text
+
+    def get_pos(self):
+        return nltk.pos_tag(self.tokenized_text)

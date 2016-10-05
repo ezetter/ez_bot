@@ -15,20 +15,27 @@ def process_request(text, remove_punctuation=True):
     if remove_punctuation:
         normalizer.remove_punctuation()
     tokens = normalizer.get_tokens()
-    action = get_action(tokens)
-    response = get_response(tokens, action)
-    return action, response, tokens
+    tagged_words = normalizer.get_pos()
+    action = get_action(tagged_words)
+    response = get_response(tagged_words, action)
+    return action, response, tagged_words
 
 
-def get_action(tokens):
-    if len(tokens) == 1 and tokens[0] in QUIT_WORDS:
-        return 'DONE'
-
-    if len(tokens) == 3 and tokens[2] in QUIT_WORDS and tokens[1] == 'am':
+def get_action(tagged_words):
+    words = get_words(tagged_words)
+    if len(words) == 1 and words[0] in QUIT_WORDS:
         return 'DONE'
 
 
 def get_response(tokens, action):
     if action == 'DONE':
         return 'OK, Bye Bye...'
-    return 'OK'
+    return 'What did you say?'
+
+
+def get_words(tagged_words):
+    return [word[0] for word in tagged_words]
+
+
+def get_tags(tagged_words):
+    return [tag[1] for tag in tagged_words]
