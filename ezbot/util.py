@@ -65,3 +65,10 @@ class TextNormalizer(object):
 
     def get_pos(self):
         return nltk.pos_tag(self.tokenized_text)
+
+    def clean(self, text):
+        self.set_text(text)
+        self.replace_contractions()
+        self.parse()
+        self.remove_repeats()
+        return self

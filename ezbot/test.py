@@ -1,6 +1,7 @@
 import unittest
 from ezbot.util import TextNormalizer
 from ezbot.process import process_request
+import ezbot.process
 
 
 class TextNormalizerTestCase(unittest.TestCase):
@@ -27,6 +28,17 @@ class TextNormalizerTestCase(unittest.TestCase):
 class ProcessRequestTestCase(unittest.TestCase):
     def test_process_done(self):
         self.assertEqual(process_request('done')[1], 'OK, Bye Bye...')
+
+    def test_is_question(self):
+        self.assertTrue(ezbot.process.is_question(TextNormalizer().clean('What time is it?').get_pos()))
+
+    def test_get_verbs(self):
+        verbs = ezbot.process.get_verbs(TextNormalizer().clean('What time is it?').get_pos())
+        self.assertEqual(verbs, ['is'])
+
+    def test_get_nouns(self):
+        nouns = ezbot.process.get_nouns(TextNormalizer().clean('What time is it?').get_pos())
+        self.assertEqual(nouns, ['time'])
 
 
 if __name__ == '__main__':
